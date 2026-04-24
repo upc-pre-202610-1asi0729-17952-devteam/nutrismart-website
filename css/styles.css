@@ -1033,3 +1033,58 @@ h4 { font-size: clamp(18px, 2.5vw, var(--h4)); font-weight: 600; }
   .page-features .features-grid__items { grid-template-columns: 1fr; }
   .hero__video-wrapper { border-radius: var(--radius); }
 }
+
+
+/* ======================== SCROLL SNAP ======================== */
+
+.hero,
+.feat-section,
+.segments,
+.plans,
+.features-grid,
+.faq,
+.about-hero,
+.about-description,
+.about-mission,
+.page-hero,
+.contact-hero,
+.contact-form-section,
+.footer {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* ======================== ACCESSIBILITY ======================== */
+
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 8px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  padding: 8px 16px;
+  border-radius: 0 0 var(--radius) var(--radius);
+  z-index: 2000;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+}
+.skip-link:focus { top: 0; }
