@@ -1,0 +1,37 @@
+
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Questrial&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+/* --- CSS Variables --- */
+:root {
+  --color-primary:    #508B89;
+  --color-primary-dk: #3a6a68;
+  --color-bg-light:   #FFE9DE;
+  --color-cta:        #F4C5AE;
+  --color-cta-dk:     #e0a98e;
+  --color-black:      #000000;
+  --color-white:      #FFFFFF;
+  --color-text:       #1a1a1a;
+  --color-text-muted: #5c5c5c;
+  --color-border:     #e0d6d0;
+
+  --font-heading: 'Poppins', sans-serif;
+  --font-body:    'Questrial', sans-serif;
+
+  --h1: 48px;
+  --h2: 36px;
+  --h3: 28px;
+  --h4: 24px;
+  --body: 16px;
+  --caption: 13px;
+
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.12);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.18);
+  --radius:    8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --transition: .3s ease;
+  --nav-height: 68px;
+}
