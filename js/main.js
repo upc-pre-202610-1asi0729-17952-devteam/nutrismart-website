@@ -107,6 +107,8 @@ function initCarousel() {
    * @returns {void}
    */
   function goTo(index) {
+    window._pauseAllVideos?.();
+
     slides[current].setAttribute('aria-hidden', 'true');
     dots[current]?.classList.remove('is-active');
 
@@ -158,14 +160,55 @@ function initCarousel() {
     }
   }, { passive: true });
 
+  /** @type {boolean} True while any hero video is playing. */
+  let videoPlaying = false;
+
   hero.addEventListener('mouseenter', () => clearInterval(autoTimer));
-  hero.addEventListener('mouseleave', startAuto);
+  hero.addEventListener('mouseleave', () => { if (!videoPlaying) startAuto(); });
 
   hero.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft')  { goTo(current - 1); resetAuto(); }
     if (e.key === 'ArrowRight') { goTo(current + 1); resetAuto(); }
   });
+
+  window._carouselPauseForVideo  = () => { videoPlaying = true;  clearInterval(autoTimer); };
+  window._carouselResumeFromVideo = () => { videoPlaying = false; startAuto(); };
+
+  new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) window._pauseAllVideos?.();
+  }, { threshold: 0.1 }).observe(hero);
 }
+
+/**
+ * Called automatically by the YouTube IFrame API once it finishes loading.
+ * Creates YT.Player instances for each hero video iframe and wires up
+ * onStateChange so the carousel pauses while a video is playing.
+ */
+window.onYouTubeIframeAPIReady = function () {
+  /** @type {YT.Player[]} */
+  const players = [];
+
+  ['yt-product', 'yt-team'].forEach(id => {
+    if (!document.getElementById(id)) return;
+    players.push(new YT.Player(id, {
+      events: {
+        onStateChange: e => {
+          if (e.data === YT.PlayerState.PLAYING) {
+            window._carouselPauseForVideo?.();
+          } else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+            window._carouselResumeFromVideo?.();
+          }
+        }
+      }
+    }));
+  });
+
+  window._pauseAllVideos = () => {
+    players.forEach(p => {
+      try { if (p.getPlayerState() === YT.PlayerState.PLAYING) p.pauseVideo(); } catch {}
+    });
+  };
+};
 
 /* ============================================================
    FAQ ACCORDION
